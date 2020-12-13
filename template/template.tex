@@ -1,0 +1,652 @@
+\documentclass[12pt]{report}
+\usepackage[a4paper]{geometry}
+\usepackage[myheadings]{fullpage}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{graphicx, wrapfig, subcaption, setspace, booktabs}
+\usepackage[T1]{fontenc}
+\usepackage[font=small, labelfont=bf]{caption}
+\usepackage{fourier}
+\usepackage[protrusion=true, expansion=true]{microtype}
+\usepackage[english]{babel}
+\usepackage{sectsty}
+\usepackage{url, lipsum}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{ textcomp }
+\usepackage{ dsfont }
+\usepackage{pst-solides3d}
+
+
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\onehalfspacing
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+%-------------------------------------------------------------------------------
+% HEADER & FOOTER
+%-------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\setlength\headheight{15pt}
+\fancyhead[L]{SLP}
+\rfoot{Page \thepage of \pageref{LastPage}}
+
+%\fancyhead[R]{Khushal}
+%Define width of horizontal line in the header
+\renewcommand{\headrulewidth}{0.3pt}
+
+%Define width of horizontal line in the footer
+\renewcommand{\footrulewidth}{0.3pt}
+%-------------------------------------------------------------------------------
+% TITLE PAGE
+%-------------------------------------------------------------------------------
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\title{ \includegraphics[height=4cm]{IITB_logo.png}\\
+        \large \texts{SLP REPORT}
+		\\ [2.0cm]
+		\HRule{0.5pt} \\
+		\LARGE \textbf{\uppercase{Behaviour of an Inflated Hyperelastic Toroidal Membrane }}
+		\HRule{2pt} \\ [0.5cm]
+		\normalsize  \vspace*{5\baselineskip}}
+
+\date{}
+
+
+
+
+\author{
+		Goparaju Khushal \\
+        Guided By - Prof. Krishnendu Haldar  \\
+Department of Aerospace Engineering\\
+Indian Institute of Technology Bombay\\ }
+
+
+\maketitle
+
+\newpage
+\setcounter{chapter}{1}
+
+% \tableofcontents{}
+
+\chapter*{List of Symbols}
+%\addcontentsline{toc}{chapter}{List of Symbols}
+
+\begin{tabular}{cp{1\textwidth}}
+    $\Omega_{o}$ & Reference configuration\\
+    $\Omega$ & Spatial configuration\\
+    \textbf{X} & Position vector in reference configuration\\
+    \textbf{x} & Position vector in spatial configuration\\
+    \textbf{I} & Identity Tensor\\
+    \textbf{F} & Deformation Gradient \\
+    \textbf{C} & Right Cauchy-Green Tensor / Green Deformation Tensor\\
+    \textbf{b} & Left Cauchy-Green Tensor / Finger Deformation Tensor\\
+    \textbf{P} & First Piola-Kirchhoff stress Tensor\\
+    $\sigma$ & Cauchy Stress tensor \\
+    \textbf{S} & Second Piola-Kirchhoff stress Tensor\\
+    \textbf{T} & First Piola-Kirchhoff traction vector\\
+    \textbf{t} & Cauchy traction vector\\
+    $\Psi$ & Helmholtz free-energy function in 3D \\
+    $\mu$ & Shear Modulus\\
+    $\lambda$ & Stretch ratio\\
+    \textit{J} & Volume Ratio / Jacobian Determinant\\
+ 
+\end{tabular}\\
+
+
+\listoffigures
+\listoftables
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Abstract}
+This Supervised Learning Project focuses on the behavior of hyperelastic inflated toroidal structures. The stress-stretch curves and instabilities due to bifurcation of equilibrium are analysed. The concepts of Bifurcation instability or snap-through instability and limit loads are studied. We look into How various models of strain-energy function show the snap-through instability and plots of deformed toroidal membrane inflated at various pressures.
+
+\section{Introduction}
+
+\subsection{Constitutive Modeling of Hyperelastic Materials}
+Unlike Linear elastic material we use Helmholtz free energy function$(\Psi)$ to model the constitutive relations of hyperelastic material which is defined per unit reference volume.We have different relations based on our selection of Stress and deformation tensors.
+
+\begin{equation}\label{eq1.1}
+    \textbf{P} = \frac{\partial \Psi(\textbf{F})}{\partial \textbf{F}}
+\end{equation}
+
+\begin{equation}\label{eq1.2}
+    \sigma = 2J^{-1}\textbf{b}\frac{\partial \Psi(\textbf{b})}{\partial \textbf{b}}
+\end{equation}
+
+\begin{equation}\label{eq1.3}
+    \textbf{S} = 2\frac{\partial \Psi(\textbf{C})}{\partial \textbf{C}}
+\end{equation}
+
+The above equations are the constitutive relations we use for Hyperelastic materials and $\Psi$ is defined as following in general, taken from Holzapfel\cite{holzapfel}
+
+\begin{equation}\label{eq1.4}
+    \Psi = \Psi(\lambda_{1},\lambda_{2},\lambda_{3}) = \sum_{p=1}^{N} \frac{\mu_{p}}{\alpha_{p}}(\lambda^{\alpha_{p}}{1} + \lambda^{\alpha{p}}{2} + \lambda^{\alpha{p}}_{3} -3)
+\end{equation}
+
+\vspace{-8mm}
+
+% \[\text{where}\hspace{2mm}2\mu = \sum_{p=1}^{N} \mu_{p}\alpha_{p}\hspace{2mm}\text{with}\hspace{2mm} \mu_{p}\alpha_{p} > 0,\hspace{4mm} p = 1,...,N \]
+
+\vspace{-8mm}
+
+% \[ \text{for}\hspace{2mm} N = 1,\alpha_{1}=1\hspace{2mm}\text{Varga Model} \]
+% \[ \text{for}\hspace{2mm} N = 1,\alpha_{1}=2\hspace{2mm}\text{Neo-Hookean Model} \]
+% \vspace{-3mm}
+% \[ \text{for}\hspace{2mm} N = 2,\alpha_{1}=2,\alpha_{2}=-2\hspace{2mm}\text{Mooney-Rivilin Model} \]
+\newpage
+
+\subsection{S-shaped and J-shaped behaviours}
+Based on the Stress-stretch curves of the Non-linear elastic materials the materials are classified into two categories called S-shaped and J-shaped materials. Here the materials are modelled using ogden, Mooney-Rivilin, Neo-Hookean and Varga model strain energy density functions and compared with test data of rubber by Treloar\cite{treloar} and Alexander\cite{alexander} which have S-shaped and J-shaped stress-stretch curves respectively which is shown in Taghizadeh\cite{snap}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+         \textbf{Type of Model} & \textbf{RSS} & \textbf{Material Parameters}\\
+         \hline
+         Ogden-type with even powers (2, 4, 6, -2) & 0.0098 & $A^{O}{2}=0.175085, A^{O}{4}=-0.001605,$\\
+          & & $A^{O}{6}=0.00003833, B^{O}{2}=0.0054$  \\
+         \hline
+         Ogden-type with combination of even & 0.0123& $A^{O}{1}=0.7096, B^{O}{2}=-0.0044,$\\
+         and odd powers(1, 4, -2) & &  $A^{O}_{4}=0.002$\\
+         \hline
+         Moony–Rivlin & 3.298 & $A^{M}{2}=0.1812, B^{M}{2}=0.00284$\\
+         \hline
+         Neo-Hookean & 5.662 & $A^{N}_{2}=0.1875$\\
+         \hline
+         Varga & 41.948 & $A^{V}_{1}=1.4132$\\
+         \hline
+    \end{tabular}
+    \caption{Strain energy functions to match the Test data from Treloar\cite{treloar}}
+    \label{Table 1.1}
+\end{table}
+\vspace{-5mm}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Type of Model} & \textbf{RSS} & \textbf{Material Parameters}\\
+        \hline
+        Ogden-type with even powers (2, 4, 6, -2,-4) & 0.0553 & $A^{O}{2}=0.2669445, A^{O}{4}=0.00250325,$\\
+         & & $A^{O}{6}=0.000069166, B^{O}{2}=0.0280695$  \\
+         & & $B^{O}_{4}=0.0000145$\\
+        \hline
+        Moony–Rivlin & 5.39 & $A^{M}{2}=0.65183, B^{M}{2}=0.01929$\\
+        \hline
+        Neo-Hookean & 10.58 & $A^{N}_{2}=0.74328$\\
+        \hline
+        Varga & 20.81 & $A^{V}_{1}=5.9033$\\
+        \hline
+    \end{tabular}
+    \caption{Strain energy functions to match the Test data from Alexander\cite{alexander}}
+    \label{Table 1.2}
+\end{table}
+\vspace{-5mm}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+			\centering
+			% \href{https://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-055.jpg&w=175&h=174}{\includegraphics[width=1\textwidth]{Treloar data.png}}
+			\caption{Treloar Rubber}
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+	        % \href{https://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-056.jpg&w=173&h=174}{\includegraphics[width=1\textwidth]{Alexander data.png}}
+			\caption{Alexander Rubber}
+		\end{subfigure}
+	\caption{Comparision of Stress-stretch curves from formulae with experimental data}
+	\centering
+	\label{Fig1.1}
+\end{figure}
+
+ Fig\ref{Fig1.1} shows that taking the ogden type strain energy function with even powers has very less value of RSS(Residual sum of squares) and agrees more with the test data of both Treloar\cite{treloar} and Alexander\cite{alexander} and the merits of this model are shown in Taghizadeh\cite{snap}, so we will try to use this ogden type strain energy function with even powers for our Toroidal membrane.
+
+\subsection{Snap-through Instability}
+Snap-through Instability is a Limit load instability, to know this we need to discuss two types of instabilities which $(a)$ Due to bifurcation of equilibrium $(b)$ Because of the existance of limit load. The bifurcation instability is something in which the structure which is deforming in the loading direction suddenly deflects in a different direction. This is generally the buckling we see in beams, sheets,etc.
+
+\begin{figure}
+    \centering
+    % \href{http://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-122.jpg&w=171&h=191}{\includegraphics[height=10cm]{Limit load.png}}
+    \caption{Load vs Stretch in inflated Shell\cite{snap}}
+    \label{Fig1.2}
+\end{figure}
+
+\newpage
+
+Now lets see the Fig\ref{Fig1.1} in which, as labelled the point A is called Limit point and the load corresponding to it is called limit load, where there is a local maximum. We can see that at the point A  the system goes into unstable equilibrium path i.e., the path ACB and gets stable again at B. The snap-through instability is the case where the structure snaps or suddenly jumps from state A to state B because it wants to avoid the path through C as it is unstable. In general rubber like materials are soft as stiffness is given by the slope of load-deformation curve and as the slope in non-linear region for any material is less in general. Here is a case where this stiffness/slope of the load-deformation curve goes to zero that is the instant when snap-through takes place. In case of a load controlled testing condition the path ACB will not occur and the structure snaps from A to B. Whereas in a deformation controlled loading condition a sudden jump in deformation takes place from that corresponding to A to B. The effect and variation of limit load in thick spherical and cylindrical shells are done in Taghizadeh\cite{snap} and will be discussed in \ref{sphere} and \ref{cylinder}.
+
+\section{Literature Review}
+This section contains the literature review of the papers Taghizadeh\cite{snap} in \ref{sphere} and \ref{cylinder}, Kolesnikov\cite{2d3d} in \ref{2d3d} and Kolesnikov\cite{tube} in \ref{tube} and Holzpfel\cite{holzapfel} for notations and formulas. From these we take the formulation of membranes and implement those for our toroidal membrane.
+
+\subsection{Stability in thick Spherical Shell}\label{sphere}
+Consider a thick walled spherical Shell made with an incompressible hyperelastic material with inner radius A and outer radius B, subjected to an internal pressure $P_{i}$ and external pressure $P_{o}$, and any point of the shell is given by spherical coordinates as $(R,\Theta,\Phi)$ in $\Omega_{o}$ and as $(r,\theta,\phi)$ in $\Omega$
+
+\vspace{-8mm}
+
+\[A\leq R \leq B,\hspace{4mm}0\leq \Theta \leq \pi,\hspace{4mm} 0\leq \Phi \leq 2\pi \]
+\begin{flushleft}
+Let the inner and outer radius in $\Omega$ be a and b respectively
+
+\[a\leq r \leq b,\hspace{4mm}0\leq \theta \leq \pi,\hspace{4mm} 0\leq \phi \leq 2\pi \]
+
+From symmetry of sphere in all directions we could say the following,
+\[ r = \textit{fn}(R),\hspace{4mm}\theta=\Theta,\hspace{4mm}\phi=\Phi  \]
+
+\pagebreak
+
+Now we will define the principle stretches $\lambda_{r}$, $\lambda_{\theta}$ and $\lambda_{\phi}$ along $\hat{r}$, $\hat{\theta}$ and $\hat{\phi}$ respectively 
+
+\begin{equation}\label{eq:1.5}
+    % \lambda_{\theta} = \frac{r}{R} = \lambda_{\phi},\hspace{2mm}\text{ and\hspace{1mm} from}\hspace{2mm} \textit{J}=1\hspace{2mm}\text{which\hspace{1mm} is}\hspace{2mm}\lambda_{r}\lambda_{\theta}\lambda_{\phi}=1,\hspace{2mm}\text{so}\hspace{2mm}\lambda_{r}=\bigg(\frac{R}{r}\bigg)^{2}
+ \end{equation}
+ 
+We have from incompressibility that volume is constant so we have $r = (k + R^{3})^{1/3}$ where $k = a^{3}-A^{3} = b^{3}-B^{3} $, we can define the relation between principal stresses and stretches as
+
+\begin{equation}\label{eq1.6}
+    \sigma_{a} = -p + \lambda_{a}\frac{\partial\Psi}{\partial\lambda_{a}},\hspace{2mm}P_{a} = -\frac{1}{\lambda_{a}}p + \frac{\partial\Psi}{\partial\lambda_{a}},\hspace{2mm}S_{a} = -\frac{1}{\lambda^{2}{a}}p + \frac{1}{\lambda{a}}\frac{\partial\Psi}{\partial\lambda_{a}}
+\end{equation}
+
+We take cauchy principal stresses for this problem, so we have
+
+\begin{equation}\label{eq1.7}
+    \sigma_{r} = -p + \lambda_{r}\frac{\partial\Psi}{\partial\lambda_{r}},\hspace{2mm}\sigma_{\theta} = -p + \lambda_{\theta}\frac{\partial\Psi}{\partial\lambda_{\theta}},\hspace{2mm}\sigma_{\phi} = -p + \lambda_{\phi}\frac{\partial\Psi}{\partial\lambda_{\phi}}
+\end{equation}
+
+from symmetry we can see that $\sigma_{r}$, $\sigma_{\theta}$ and $\sigma_{\phi}$ are independent of $\theta$ and $\phi$ and the non-trivial equilibrium equation is,
+\vspace{-4mm}
+
+\begin{equation}\label{eq1.8}
+    \frac{\partial\sigma_{r}}{\partial r} +\frac{2(\sigma_{r}-\sigma_{\theta})}{r} = 0
+\end{equation}
+
+next taking a variable $Q=\frac{R}{r}$ and using $\frac{\partial\sigma_{r}}{\partial r}=\frac{\partial\sigma_{r}}{\partial Q}\frac{\partial Q}{\partial r}$ where we have $\frac{\partial Q}{\partial r} = \frac{1}{r}(Q^{-2}-Q)$, from using this with eqn\ref{eq1.6} in eqn\ref{eq1.8} we get our $\sigma_{r}$ and $\sigma_{\theta}$.
+
+Our boundary conditions are from inner and outer surface are as follows,
+\vspace{-4mm}
+\begin{equation}\label{eq1.9}
+    % \sigma_{r}\vert_{Q=\lambda^{-1}{a}} = -P{i} \hspace{2mm} \text{and} \hspace{2mm} \sigma_{r}\vert_{Q=\lambda^{-1}{b}} = -P{o}
+\end{equation}
+
+where we have $\lambda_{a} = \frac{a}{A}$ and $\lambda_{b} = \frac{b}{B}$ and now for our observation of results we introduce a parameter $\eta = \frac{A}{B}$ to quantify the thickness of the shell. We will also have the relation $\lambda_{b} = (\eta^{3}(\lambda_{a}^{3}-1) + 1)^{1/3}$.
+\vspace{-4mm}
+
+\begin{equation}\label{eq:1.10}
+    \Delta P = P_{i} - P_{o} = \sigma_{r}(Q=\lambda^{-1}{b})-\sigma{r}(Q=\lambda^{-1}_{a})
+\end{equation}
+
+from eqn\ref{eq:1.10} we have the load $\Delta P$ as a function of hoop stretches $\lambda_{a}$ or $\lambda_{a}$ and we could plot this and see how our strain energy models defined in table\ref{Table 1.1} and table\ref{Table 1.2} for Treloar\cite{treloar} rubber and and Alexander\cite{alexander} rubber show snap-through instability and how thickness plays as a factor in this instability.
+
+\end{flushleft}
+
+From Fig\ref{Fig1.3} we see for the Varga and Neo-Hookean strain energy functions, the inflation curve always has a single local pressure maximum and after that has subsequent
+monotonic decreasing pressure. For Mooney–Rivlin model and the Ogden-type, the
+inflation curve has a local maximum followed by a local minimum after which the
+pressure increases to infinity (the blast), this behavior is in agreement with experimental observation\cite{snap}.
+
+\begin{figure}[!ht]\label{Fig1.3}
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+			\centering
+			% \href{http://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-133.jpg&w=175&h=177}{\includegraphics[width=1\textwidth]{Treloar sphere.png}}
+			\caption{Treloar Rubber, \eta = 0.1, 0.35, 0.5.}
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+	        % \href{http://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-134.jpg&w=175&h=177}{\includegraphics[width=1\textwidth]{Alexander sphere.png}}
+			\caption{Alexander Rubber, \eta = 0.19, 0.35, 0.5 }
+		\end{subfigure}
+	\caption{Pressure versus the inner hoop stretch for spherical shell\cite{snap}}
+	\centering
+	\label{Fig1.3}
+\end{figure}
+
+
+\begin{figure}[!ht]\label{Fig1.4}
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+			\centering
+			\setlength{\fboxrule}{2pt}
+			% \fbox{\includegraphics[width=1\textwidth]{treloar very thick.png}}
+			\caption{\eta = 0.01}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\setlength{\fboxrule}{2pt}
+	        % \fbox{\includegraphics[width=1\textwidth]{treloar very thick=0.11.png}}
+			\caption{\eta = 0.11 }
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\setlength{\fboxrule}{2pt}
+	        % \fbox{\includegraphics[width=1\textwidth]{treloar very thin=0.99.png}}
+			\caption{\eta = 0.99 }
+		\end{subfigure}
+	\caption{Load versus inner hoop stretch for spherical shell made of Treloar Rubber }
+	\centering
+	\label{Fig1.4}
+\end{figure}
+
+
+From Fig\ref{Fig1.4} it can be observed that as the shell thickness increases (decreasing $\eta$), there is no snap-through instability which occurs in spherical shell and we don't observe any snap-through instability till $\eta = 0.11$ and also when we see when $\eta = 0.11$ we can clearly see that there is no limit point according to Ogden's model but the other three models show a point where the stiffness is zero and experimental results agree more with the behavior shown by Ogden type model so we will prefer to use this model, and also from Fig\ref{Fig1.4}$(c)$ when $\eta=0.99$ there is high possibility of snap-through and all models except Varga model show the limit point approximately same, and as we will be dealing with thin membranes i.e., high $\eta$ in section\ref{Model} so if we want to find the limit point at which the snap-through happens we could prefer any of Neo-hookean, Mooney-Rivilin or Ogden-type with even powers as our model but incase we want the complete behavior we will go with Ogden-type model with even powers. 
+
+\subsection{Stability in thick Cylindrical Shell}\label{cylinder}
+In this section a thick cylindrical shell made with an incompressible hyperelastic materialwith inner radius A, outer radius B and length L, subjected to an internal pressure $P_{i}$ and external pressure $P_{o}$, and any point of the shell is given by cylindrical coordinates as $(R,\Theta,Z)$ in $\Omega_{o}$ and as $(r,\theta,z)$ in $\Omega$
+
+\[A\leq R \leq B,\hspace{4mm}0\leq \Theta \leq \pi,\hspace{4mm} 0\leq Z \leq L \]
+\begin{flushleft}
+Let the inner, outer radius and length in $\Omega$ be a, b and l respectively
+
+\[a\leq r \leq b,\hspace{4mm}0\leq \theta \leq \pi,\hspace{4mm} 0\leq z \leq l \]
+We could say that  \hspace{23mm}  $r = \textit{fn}(R),\hspace{4mm}\theta=\Theta,\hspace{4mm}z=\lambda_{z}Z  $
+
+
+Now we will define the principle stretches $\lambda_{r}$, $\lambda_{\theta}$ and $\lambda_{z}$ along $\hat{r}$, $\hat{\theta}$ and $\hat{k}$ respectively 
+
+
+\begin{equation}\label{eq1.11}
+    % \lambda_{r} = \frac{dr}{dR},\hspace{2mm}\lambda_{\theta}=\frac{r}{R}\hspace{2mm}\text{and}\hspace{2mm}\lambda_{z}=\text{constant}
+ \end{equation}
+ 
+It is considered that the material of the cylinder is taken to be incompressible. The
+resulting deformation is then described by the equations
+
+\begin{equation}\label{eq1.12}
+    \lambda_{r} = Q\lambda_{z}^{-1},\hspace{2mm} r^{2}=\lambda^{-1}R^{2}+c
+\end{equation}
+
+where $Q = \frac{R}{r}$ and $c$ is a unknown constant.
+
+from eqn\ref{eq1.6} the Cauchy principal stresses are given in the form of
+
+\begin{equation}\label{eq1.13}
+    \sigma_{r} = -p + \lambda_{r}\frac{\partial\Psi}{\partial\lambda_{r}},\hspace{2mm}\sigma_{\theta} = -p + \lambda_{\theta}\frac{\partial\Psi}{\partial\lambda_{\theta}},\hspace{2mm}\sigma_{z} = -p + \lambda_{z}\frac{\partial\Psi}{\partial\lambda_{z}}
+\end{equation}
+
+from symmetry we can see that $\sigma_{r}$, $\sigma_{\theta}$ and $\sigma_{z}$ are functions of $Q$ and $\lambda_{z}$ and the non-trivial equilibrium equation is,
+\vspace{-4mm}
+
+\begin{equation}\label{eq1.14}
+    \frac{\partial\sigma_{r}}{\partial r} +\frac{(\sigma_{r}-\sigma_{\theta})}{r} = 0
+\end{equation}
+
+using $\frac{\partial\sigma_{r}}{\partial r}=\frac{\partial\sigma_{r}}{\partial Q}\frac{\partial Q}{\partial r}$ where we have $\frac{\partial Q}{\partial r} =\frac{(\lambda_{z}Q^{-1}-Q)}{r}$, from using this with eqn\ref{eq1.13} in eqn\ref{eq1.14} we get our $\sigma_{r}$, $\sigma_{\theta}$ and $\sigma_{z}$.
+
+Our boundary conditions are from inner and outer surface are same as eqn\ref{eq1.9} and the stretches are related as $\lambda^{2}{a} = \frac{\lambda{b}^{-2}(\eta^{2}-1)+\lambda_{z}}{\lambda_{z}\eta^{2}\lambda_{b}^{-2}}$ and $\eta = \frac{A}{B}$.\\
+
+The relation between load and hoop stretch can be developed using eqn\ref{eq1.10} and the only extra parameter is $\lambda_{z}$. In order to hold $\lambda_{z}$ fixed an axial load, N say, must be applied to the tube ends. This force is given by
+
+\begin{equation}\label{eq1.15}
+    N = \int_{a}^{b}2\pi r\sigma_{z}(r)dr = \int_{\lambda_{a}^{-1}}^{\lambda_{b}^{-1}}\frac{2\pi c Q\lambda_{z}}{(\lambda_{z}-Q^{2})^{2}}\sigma_{z}(Q)dQ
+\end{equation}
+
+\end{flushleft} 
+
+\begin{figure}[!h]
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+			\centering
+			% \href{http://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-222.jpg&w=172&h=172}{\includegraphics[width=1\textwidth]{Treloar cylinder 1.png}}
+			\caption{Treloar Rubber, $\eta$ = 0.35, 0.5, 0.7}
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+	        % \href{http://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-223.jpg&w=172&h=172}{\includegraphics[width=1\textwidth]{Alexander cylinder 1.png}}
+			\caption{Alexander Rubber, $\eta$ = 0.5, 0.7, 0.9}
+		\end{subfigure}
+	\caption{The internal pressure versus the inner hoop stretch in a closed-end cylindrical tube in the case of $\lambda_{z}$ = 1.2}
+	\centering
+	\label{Fig1.5}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}{0.47\textwidth}
+			\centering
+			% \href{http://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-232.jpg&w=172&h=172}{\includegraphics[width=1\textwidth]{Treloar cylinder 2.png}}
+			\caption{Treloar Rubber, $\lambda_{z}$ = 0.6, 0.85, 1, 1.4}
+		\end{subfigure}
+		\begin{subfigure}{0.47\textwidth}
+			\centering
+	        % \href{http://www.worldscientific.com/action/showImage?doi=10.1142/S1758825115500271&iName=master.img-233.jpg&w=172&h=172}{\includegraphics[width=1\textwidth]{Alexander cylinder 2.png}}
+			\caption{Alexander Rubber, $\lambda_{z}$ = 0.6, 0.85, 1, 1.4}
+		\end{subfigure}
+	\caption{The internal pressure versus the inner hoop stretch in a closed-end cylindrical tube in the case of $\eta$ = 0.5}
+	\centering
+	\label{Fig1.6}
+\end{figure}
+
+From fig\ref{Fig1.5}(a), it can be seen that for a closed-end treloar rubber cylindrical tube with presence of axial pre-stretch, the Ogden-type model predicts the stability for $\eta\leq0.35$. In addition, for a closed-end Alexander rubber cylindrical tube, it can be seen from fig\ref{Fig1.5}(b) that the Ogden-type model predicts that we have the stability for any value $\eta$. However, the classic strain energy models (Mooney–Rivlin, Neo-Hookean, varga) show a snap-through instability for the mentioned values $\eta$. This means that the classic strain energy functions are weak in representation of stability. Since the behavior of the rubber tested by Alexander is more similar to J-shaped form than the rubber
+tested by Treloar it can be conclude that utilizing the materials with semi J-shaped
+mechanical behavior in pressurized closed-end cylindrical tubes can vanish the snapthrough instability. Based on the obtained results, the cylindrical tubes made of a
+material with high strain-stiffening are more willing to show stability. The conclusion here by Taghizadeh\cite{snap} can be used for deciding the type of material to choose in cylindrical shells we will look into how it agrees in case of a toroidal membrane.
+
+Fig\ref{Fig1.6} shows the case where axial pre-stretch is varied for a fixed cylindrical thickness and we can see that incase of Treolar rubber the tubes with $\lambda_{z}\leq1$ should be more stable than the tubes with $\lambda_{z}\geq1$ whereas the cylindrical shells made of Alexander Rubber under axial pre-stretch always stability, another observation where J-shaped material behavior is more stable compared to S-shaped material behavior.
+
+\pagebreak
+
+\subsection{Relation from 2D to 3D in incompressible thin membranes}\label{2d3d}
+
+Consider a thin membrane under plane stress with $({\textbf{G}}{1},{\textbf{G}}{2})$ as the basis of this membrane surface let $\hat{\textbf{N}}$ be the direction perpedicular to the surface and thickness $H$ is defined along this direction in $\Omega_{0}$ and $({\textbf{g}}{1},{\textbf{g}}{2},\hat{\textbf{n}})$, $h$ accordingly in $\Omega$.
+
+\begin{flushleft}
+Now we will define two types of terms each for 2D and 3D  with a $(^{*})$ as superscript for representing 2D and our metric tensors \textbf{G} in $\Omega_{o}$ and \textbf{g} in $\Omega$ are defined as follows
+    
+\begin{equation}\label{eq1.16}
+    {\bf{G}} = G_{ij}{\bf{G}}^{i}\otimes {\bf{G}}^{j}= {\bf{I}}-{\bf{N}}\otimes {\bf{N}},\hspace{4mm}{\bf{g}} = g_{ij}{\bf{g}}^{i}\otimes {\bf{g}}^{j}={\bf{I}}-{\bf{n}}\otimes {\bf{n}}
+\end{equation}    
+    
+Where ${\bf{I}}$ is a third-order Identity Tensor,the equilibrium equations for this membrane are 
+   
+\begin{equation}\label{eq1.17}
+    Div({\bf{P}}^{}) + {\bf{F}}^{} = 0\hspace{2mm}in\hspace{2mm}\Omega_{o}, \hspace{4mm}div({\bf{\sigma}}^{}) + {\bf{f}}^{} = 0\hspace{2mm}in\hspace{2mm}\Omega
+\end{equation}   
+    
+We have relation  between stresses  as follows, where ${\bf{P}}^{}$, ${\bf{\sigma}}^{}$ and ${\bf{S}}^{*}$ are according to eqn\ref{eq1.1}, eqn\ref{eq1.2} and eqn\ref{eq1.3}
+  
+\vspace{-8mm}
+  
+\begin{equation}\label{eq1.18}
+    \textit{J}^{}{\bf{\sigma}}^{} =  {\bf{P}}^{}{\bf{F}}^{^{T}} = {\bf{F}}^{}{\bf{S}}^{}{\bf{F}}^{*^{T}}
+\end{equation}
+
+Where $\textit{J}^{}$ is volume ratio in 2D and we can write $\textit{J} = \lambda_{n}\textit{J}^{}$ where $\textit{J}$ is volume ratio in 3D and $\lambda_{1}$, $\lambda_{}$ and $\lambda_{n}$ are the principal stretches. The Right Cauchy-Green Deformation tensor and Left Cauchy-Green deformation tensor are given in 2D as follows
+
+\begin{equation}\label{eq1.19}
+    {\bf{C}}^{} = g_{ij}{\bf{G}}^{i}\otimes {\bf{G}}^{j},\hspace{4mm}{\bf{b}^{}} = G_{ij}{\bf{g}}^{i}\otimes {\bf{g}}^{j}
+\end{equation}
+
+Inompressible condition gives $\lambda_{n}=\frac{h}{H}=\frac{1}{\lambda_{1}\lambda_{2}}=\sqrt{\frac{det({\bf{G}})}{det({\bf{g}})}}$ and using spectral decompositon eqn\ref{eq1.20} as follows so can relate 3D with 2D which is eqn\ref{eq1.21}
+
+\begin{equation}\label{eq1.20}
+    {\bf{C}}=\sum_{a=1}^{3}\lambda_{a}^{2}\hat{\bf{N}}{a}\otimes\hat{\bf{N}}{a},\hspace{4mm}{\bf{b}}=\sum_{a=1}^{3}\lambda_{a}^{2}\hat{\bf{n}}{a}\otimes\hat{\bf{n}}{a},\hspace{4mm}{\bf{F}}=\sum_{a=1}^{3}\lambda_{a}\hat{\bf{n}}{a}\otimes\hat{\bf{N}}{a}
+\end{equation}
+    
+\begin{equation}\label{eq1.21}
+    {\bf{C}}={\bf{C}^{}}+\lambda_{n}^{2}\hat{\bf{N}}\otimes\hat{\bf{N}},\hspace{4mm}{\bf{b}}={\bf{b}^{}}+\lambda_{n}^{2}\hat{\bf{n}}\otimes\hat{\bf{n}},\hspace{4mm}{\bf{F}}={\bf{F}^{*}}+\lambda_{n}\hat{\bf{n}}\otimes\hat{\bf{N}}
+\end{equation}
+    
+Now moving on to relating Strain energy density function from 2D to 3D we take the condition of incompressibility into account and we know for any material $Volume = Surface Area$ x $ thickness$ and our strain energy density in 2D is w.r.t surface area where as for 3D is volume so we can write eqn\ref{eq1.22}
+
+\begin{equation}\label{eq1.22}
+    \Psi^{}({\bf{C}^{}}) = H\Psi({\bf{C}}) = H\Psi({\bf{C}^{*}}+\lambda_{n}^{2}\hat{\bf{N}}\otimes\hat{\bf{N}})
+\end{equation}
+
+\end{flushleft}
+
+\pagebreak
+
+\subsection{Curved Elastic Tube in bending}\label{tube}
+In this subsection we consider a Curved elastic tube which is under bending Which is typically a part of toroidal membrane but since it is a tube it is an open body and modeling will be similiar to that we will be using section\ref{Model} So the modeling part is done extensively there. Here we will discuss how we start out with taking our model for a curved surface in general.
+
+Here we define new parameters $\kappa$ and $K$ in $\Omega_{o}$ and $\Omega$ respectively which are the curvature of the mid-line of our tube. Let the surface be given by the basis$({\textbf{g}}{1},{\textbf{g}}{2})$ an the normal to the surface is given by $\hat{\bf{n}}$ and the gaussian surface coordinates be $(u^{1},u^{2})$, Lets define the curvature tensor $\mathds{{K}}$  for our surface
+
+\begin{equation}\label{eq1.23}
+    % \mathds{{K}} = grad(\hat{\bf{n}}) = \mathds{{K}}_{ij}{\bf{g}}^{i}\otimes {\bf{g}}^{j},\hspace{4mm}
+    % \mathds{{K}}{ij} = \frac{\partial {\bf{g}}^{i}}{\partial u^{j}}.\hat{\bf{n}}\hspace{4mm}\text{and}\hspace{4mm}\hat{\bf{n}}=\frac{{\bf{g}}{i}\times {\bf{g}}{j}}{\vert {\bf{g}}{i}\times {\bf{g}}_{j} \vert}
+\end{equation}
+
+\begin{flushleft}
+
+For dealing with curvatures we use Christoffel symbols of $1^{st}$ kind ($\Gamma_{ijk}$) and of $2^{nd}$ kind ($\Gamma^{i}_{jk}$) are given by eqn\ref{eq1.24}
+
+\begin{equation}\label{eq1.24}
+    \Gamma^{i}{jk}({\bf{u}}) = \frac{\partial {\bf{g}}{j}}{\partial u^{k}}.{\bf{g}}{i},\hspace{4mm}g{ih}\Gamma_{ijk}=\Gamma^{h}_{jk}
+\end{equation}
+
+We also use the symmetry properties of Christoffel symbols and Ricci Identites as follows
+
+\begin{equation}\label{eq1.25}
+    \Gamma^{i}{jk}=\Gamma^{i}{kj},\hspace{4mm}\Gamma^{m}{ki} = g^{jm}\Gamma{jki} = \frac{1}{2}g^{jm}\bigg(\frac{\partial g_{jk}}{\partial u^{i}}-\frac{\partial g_{ki}}{\partial u^{j}}+\frac{\partial g_{ij}}{\partial u^{k}}\bigg)
+\end{equation}
+\end{flushleft}
+
+\section{Modeling of Toroidal Membrane}\label{Model}
+Consider a thin toroidal membrane of initial circular cross-section and thickness H,  made of an incompressible hyperelastic material with major radius $R$ and minor radius $r$ is inflated by a pressure $\xi$ as shown below.
+
+% \begin{center}\label{toroidal membrane image}
+    % \href{https://www.mathsisfun.com/geometry/images/torus.svg}
+    % \includegraphics[width=0.45\textwidth]{Torus.png}
+% \end{center}
+
+\pagebreak
+
+\subsection{Defining Basis and Metric Tensors}
+
+Now we define our surface of toroid using the gaussian surface coordinates ($u^{1}=\theta,u^{2}=\phi$).
+
+\[0\leq\theta\leq2\pi,\hspace{4mm}0\leq\phi\leq2\pi\]
+
+We also have defined the coordinates as shown in Fig\ref{Fig1.7} and the curvature of median line in $\Omega_{o}$ is $\kappa$ and in $\Omega$ is $K$.The cross-section of the toroid in $\Omega_{o}$ by sectioning with a plane AB is a circle of radius $r$ where as for $\Omega$ it is not a circle, the only thing we can comment on this for now is that is symmetric about xy-plane.
+
+From the axial symmetry of the toroid and a loading condition of uniform pressure we can say that all the stretches, stresses are a function of '$\theta$' and so we can focus on cross-section to describe the behavior of the toroid so we define the coordinate system consisting of the plane with the cross-section.
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}{0.47\textwidth}
+		\centering
+		% \fbox{\includegraphics[width=1\textwidth]{reference_config.png}}
+		\caption{Toroid in Reference Configuration $\Omega_{o}$}
+	\end{subfigure}
+	\hfill	
+	\begin{subfigure}{0.47\textwidth}
+		\centering
+		% \fbox{\includegraphics[width=1\textwidth]{spatial_config.png}}
+		\caption{Toroid in Spatial Configuration $\Omega$}
+	\end{subfigure}
+	\caption{Basis vectors and Coordinate systems of Toroidal membrane}
+	\centering
+	\label{Fig1.7}
+\end{figure}
+
+\begin{flushleft}
+
+The position vector of any point on toroid is ${\bf{X}}$ in $\Omega_{o}$ and ${\bf{x}}$ in $\Omega$ are given as follows
+
+\begin{equation}\label{eq1.26}
+    {\bf{X}} = X_{1}\hat{\bf{K}} + X_{2}\hat{\bf{E}}_{2},\hspace{4mm}
+    \hat{\bf{E}}_{2} = \cos K\phi\hat{\bf{I}} +\sin K\phi\hat{\bf{J}}
+\end{equation}
+\vspace{-4mm}
+\begin{equation}\label{eq1.27}
+    {\bf{x}} = x_{1}\hat{\bf{k}} + x_{2}\hat{\bf{e}}_{2},\hspace{4mm}
+    \hat{\bf{e}}_{2} = \cos \kappa\phi\hat{\bf{i}} +\sin \kappa\phi\hat{\bf{j}}
+\end{equation}
+
+where $X_{1}$, $X_{2}$, $x_{1}$ and $x_{2}$ are purely the functions of $\theta$. We have our basis vectors $({\bf{G}}{\theta},{\bf{G}}{\phi})$ in $\Omega_{o}$ and $({\bf{g}}{\theta},{\bf{g}}{\phi})$ in $\Omega$ are defined as follows
+
+\begin{equation}\label{eq1.28}
+    {\bf{G}}_{\theta} = \frac{\partial {\bf{X}} }{\partial\theta},\hspace{4mm}
+    {\bf{G}}_{\phi} = \frac{\partial {\bf{X}} }{\partial\phi},\hspace{4mm}
+    {\bf{g}}_{\theta} = \frac{\partial {\bf{x}} }{\partial\theta},\hspace{4mm}
+    {\bf{g}}_{\phi} = \frac{\partial {\bf{x}} }{\partial\phi}
+\end{equation}
+
+\pagebreak
+
+Now substituting eqn\ref{eq1.26} and eqn\ref{eq1.27} in eqn\ref{eq1.28} we get the basis vectors as
+
+\begin{equation}\label{eq1.29}
+    {\bf{G}}{\theta} = X'{1}\hat{\bf{K}} + X'{2}\hat{\bf{E}}{2},\hspace{4mm}
+    {\bf{G}}{\phi} = K X{2}\hat{\bf{E}}_{3},\hspace{4mm}
+    \hat{\bf{E}}_{3} = -\sin K\phi\hat{\bf{I}} +\cos K\phi\hat{\bf{J}}
+\end{equation}
+\vspace{-4mm}
+\begin{equation}\label{eq1.30}
+    {\bf{g}}{\theta} = x'{1}\hat{\bf{k}} + x'{2}\hat{\bf{e}}{2},\hspace{4mm}
+    {\bf{g}}{\phi} = \kappa x{2}\hat{\bf{e}}_{3},\hspace{4mm}
+    \hat{\bf{e}}_{3} = -\sin \kappa\phi\hat{\bf{i}} +\cos \kappa\phi\hat{\bf{j}}
+\end{equation}
+
+here $()'=\frac{d()}{d\theta}$. We could see that our set of basis vectors are orthogonal $({\bf{G}}{\phi}.{\bf{G}}{\theta} = 0,{\bf{g}}{\phi}.{\bf{g}}{\theta} = 0)$ and the components of Metric tensors ${\bf{G}}$ in $\Omega_{o}$ and ${\bf{g}}$ in $\Omega$ are given  as
+
+\begin{equation}\label{eq1.31}
+    G_{\theta\theta}={\bf{G}}{\theta}.{\bf{G}}{\theta}=X'{1}^{2}+X'{2}^{2},\hspace{4mm}
+    G_{\theta\phi}=0=G_{\phi\theta},\hspace{4mm}
+    G_{\phi\phi} = {\bf{G}}{\phi}.{\bf{G}}{\phi}=K^{2}X^{2}_{2}
+\end{equation}
+\vspace{-4mm}
+\begin{equation}\label{eq1.32}
+    g_{\theta\theta}={\bf{g}}{\theta}.{\bf{g}}{\theta}=x'{1}^{2}+x'{2}^{2},\hspace{4mm}
+    g_{\theta\phi}=0=g_{\phi\theta},\hspace{4mm}
+    g_{\phi\phi} = {\bf{g}}{\phi}.{\bf{g}}{\phi}=\kappa^{2}x^{2}_{2}
+\end{equation}
+\end{flushleft}
+
+\subsection{Principal Stretches and Principal Stresses}
+We define the principal stretches along meridian and longitudinal directions as $\lambda_{\theta}$ and $\lambda_{\phi}$ respectively, using relations \ref{eq1.19} and \ref{eq1.20} we can express them as
+
+\begin{equation}\label{eq1.33}
+    \lambda_{\theta}(\theta)=\sqrt{\frac{g_{\theta\theta}}{G_{\theta\theta}}},\hspace{4mm}
+    \lambda_{\phi}(\theta)=\sqrt{\frac{g_{\phi\phi}}{G_{\phi\phi}}}
+\end{equation}
+
+\begin{flushleft}
+
+We define a function $\tan(\psi(\theta))=\frac{x'{2}}{x'{1}}$ now using relations \ref{eq1.32} and \ref{eq1.33} we get the following ordinary differential equations in $\theta$.
+
+\begin{equation}\label{eq1.34}
+    x'{1}(\theta)=\sqrt{G{\theta\theta}}\lambda_{\theta}\cos\psi,\hspace{4mm}
+    x'{2}(\theta)=\sqrt{G{\theta\theta}}\lambda_{\theta}\sin\psi
+\end{equation}
+\vspace{-4mm}
+\begin{equation}\label{eq1.35}
+    \lambda'{\phi}(\theta)=\kappa\sqrt{\frac{G{\theta\theta}}{G_{\phi\phi}}}
+    \lambda_{\theta}\sin\psi-\frac{G'{\phi\phi}}{2G{\phi\phi}}\lambda_{\phi}
+\end{equation}
+
+
+
+
+% \begin{equation}\s
+
+\end{flushleft}
+
+\subsection{Static Equilibrium}
+
+\subsection{Boundary Conditions}
+
+\subsection{Incompressibility Condition}
+
+\section{Results}
+
+\section{Conclusion}
+
+
+
+	\nocite{tensor}
+    \bibliographystyle{plain}
+	\bibliography{biblio}
+\end{document}

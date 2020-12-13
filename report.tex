@@ -1,0 +1,129 @@
+\documentclass[12pt]{report}
+\usepackage[a4paper]{geometry}
+\usepackage[myheadings]{fullpage}
+\usepackage[protrusion=true, expansion=true]{microtype}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[font=small, labelfont=bf]{caption}
+\usepackage[symbols,nogroupskip,sort=none]{glossaries-extra}
+\usepackage{titlesec, fancyhdr, lastpage, graphicx, wrapfig, subcaption, setspace, booktabs, fourier, sectsty, url, lipsum, hyperref, float, textcomp , dsfont , pst-solides3d}
+
+% hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=black,
+}
+
+\newcommand \frontmatter { %
+    \cleardoublepage
+    %\@mainmatterfalse
+    \pagenumbering{roman}}
+\newcommand \mainmatter { %
+    \cleardoublepage
+    %\@mainmattertrue
+    \pagenumbering{arabic}}
+\newcommand \backmatter { %
+    \if@openright
+        \cleardoublepage
+    \else
+        \clearpage
+    \fi
+    %\@mainmatterfalse
+}
+
+% Defining HRule
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\onehalfspacing
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+%------------------------------
+% HEADER & FOOTER
+%------------------------------
+\fancypagestyle{IHA-fancy-style}{%
+  \fancyhf{}% Clear header and footer
+  \setlength\headheight{15pt}
+  \fancyhead[LE,RO]{\slshape \rightmark}
+  \fancyhead[LO,RE]{\slshape \leftmark}
+  \fancyfoot[R]{Page \thepage of \pageref{LastPage}}% Custom footer
+  \renewcommand{\headrulewidth}{0.3pt}% Line at the header invisible
+  \renewcommand{\footrulewidth}{0.3pt}% Line at the footer visible
+}
+
+% Redefine the plain page style
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \setlength\headheight{15pt}
+  \fancyhead[L]{SLP}
+  \fancyfoot[R]{Page \thepage of \pageref{LastPage}}%
+  \renewcommand{\headrulewidth}{0.3pt}% Line at the header invisible
+  \renewcommand{\footrulewidth}{0.3pt}% Line at the footer visible
+}
+
+% Extra Modifications
+\addto\captionsenglish{
+  \renewcommand{\contentsname}%
+    {Table Of Contents}%
+}
+\titleformat{\chapter}
+  {\normalfont\huge\bfseries}{\thechapter}{1em}{} 
+
+\newcommand\projectTitle{Report Title}
+\newcommand\studentName{Krith Sanvith Manthripragada}
+\newcommand\guideName{Prof. Krishnendu Haldari}
+\newcommand\department{Department of Aerospace Engineering}
+\newcommand\institute{Indian Institute of Technology, Bombay}
+
+% Defining all symbols
+\glsxtrnewsymbol[description={position}]{x}{\ensuremath{x}}
+\glsxtrnewsymbol[description={velocity}]{v}{\ensuremath{v}}
+\glsxtrnewsymbol[description={acceleration}]{a}{\ensuremath{a}}
+\glsxtrnewsymbol[description={time}]{t}{\ensuremath{t}}
+\glsxtrnewsymbol[description={force}]{F}{\ensuremath{F}}
+
+% Front Page Definition
+\title{ 
+  \begin{center}
+    \includegraphics[height=4cm]{images/IITB_logo.png} \\
+    \large {SLP REPORT}
+    \\ [2.0cm]
+    \HRule{0.5pt} \\
+    \LARGE \textbf{\uppercase{\projectTitle{}}}
+    \HRule{2pt} \\ 
+    [0.5cm]
+    \normalsize \vspace*{5\baselineskip}
+  \end{center}
+}
+\author{
+  \studentName \\
+  \guideName \\
+  \department \\
+  \institute \\
+}
+\date{}
+
+% Always have this just before \begin{document}
+\usepackage{subfiles}
+
+\begin{document}
+
+\frontmatter
+\pagestyle{IHA-fancy-style}
+
+\maketitle
+\tableofcontents
+\printunsrtglossary[type=symbols,style=long,title={List of Symbols}]
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+
+\mainmatter
+\subfile{chapters/01_abstract.tex}
+\subfile{chapters/02_introduction.tex}
+\subfile{chapters/03_literature_review.tex}
+\subfile{chapters/04_modeling.tex}
+\subfile{chapters/05_results.tex}
+\subfile{chapters/06_conclusion.tex}
+\end{document}
