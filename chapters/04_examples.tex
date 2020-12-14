@@ -4,6 +4,65 @@
 
 \chapter{Examples}
 
+\section{Double Gyre}
+Let's look at the double gyre flow. This flow comes from hamiltonian stream function.
+\begin{equation}
+  \begin{aligned}
+    \Psi(x, y, t) &= A\sin(\pi f(x, t)) \sin(\pi y)
+  \end{aligned}
+\end{equation}
 
+Where,
+\begin{equation}
+  \begin{aligned}
+    f(x, t) = t\sin(wt) x^2 + (1 - 2 \epsilon \sin(wt))
+  \end{aligned}
+\end{equation}
+
+We can calculate the velocity field \(V = (U, V)\) as
+\begin{equation}
+  \begin{aligned}
+    x^\prime &= U(x, y, t) \\
+    &= -A\pi\sin(\pi f(x, t)) cos(xy) \\
+  \end{aligned}
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+    y^\prime &= v(x, y, t) \\
+    &= A\pi\cos(\pi f(x, t)) \sin(\pi y) \frac{\partial F}{\partial x}
+  \end{aligned}
+\end{equation}
+
+\# TODO: Figure \par
+
+We use the parameters, \(A = 0.1\), \(w = 0.2\pi\) and \(\epsilon = 0.25\)
+
+\begin{equation}
+  \begin{aligned}
+    \therefore \nabla V &= \begin{bmatrix}
+      \frac{\partial U}{\partial x} & \frac{\partial U}{\partial y} \\[12pt]
+      \frac{\partial V}{\partial x} & \frac{\partial V}{\partial y} \\
+    \end{bmatrix} \\
+    &= \begin{bmatrix}
+      -\pi^2 A\cos(\pi f)\cos(\pi y) \frac{\partial f}{\partial x} & \pi^2 A\sin(\pi f)\sin(xy) \\[12pt]
+      -\pi^2 A\sin(\pi f)\sin(\pi y)\frac{\partial f}{\partial x} + \pi f\cos(\pi f)\sin(\pi y) \frac{\partial^2 f}{\partial x^2} & \pi^2 A\cos(\pi f)\cos(\pi y)\frac{\partial f}{\partial x} \\
+    \end{bmatrix}
+  \end{aligned}
+\end{equation}
+
+Now Eularian Rate of Strain Tensor,
+\begin{equation}
+  \begin{aligned}
+    \therefore \nabla V &= \begin{bmatrix}
+      \frac{\partial U}{\partial x} & ll_2(\frac{\partial U}{\partial y} + \frac{\partial V}{\partial x}) \\[12pt]
+      ll_2(\frac{\partial U}{\partial y} + \frac{\partial V}{\partial x} & \frac{\partial V}{\partial y} \\
+    \end{bmatrix} \\
+  \end{aligned}
+\end{equation}
+
+Now the below figure shows a comparison of the F.I.L.E field for a short integration Time \(T = -0.5\) first with an approximation to first order in \(T\).
+
+\# TODO: Figure
 
 \end{document}
