@@ -1,0 +1,94 @@
+\documentclass[12pt]{beamer}
+\usepackage[protrusion=true, expansion=true]{microtype}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[symbols,nogroupskip,sort=none]{glossaries-extra}
+\usepackage{amsmath, amsfonts, amssymb, float, graphicx, setspace, fancyhdr, hyperref, indentfirst, lastpage, titlesec}
+
+\usetheme{AnnArbor}
+\usecolortheme{default}
+% \setbeamertemplate{background canvas}[vertical shading][top=magenta!15,bottom=cyan!20]
+
+% hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=black,
+}
+
+% Defining HRule
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+% \setcounter{tocdepth}{5}
+% \setcounter{secnumdepth}{5}
+
+\newcommand\projectTitle{Lagrange Coherent Structures}
+\newcommand\studentName{Krith Sanvith Manthripragada}
+\newcommand\guideName{Prof.Vineeth Nair}
+\newcommand\department{Department of Aerospace Engineering}
+\newcommand\instituteName{Indian Institute of Technology, Bombay}
+
+\title[\textbf{\uppercase{\projectTitle}}]{ 
+  \includegraphics[height=1cm]{images/IITB_logo.png} \\
+  \large {SLP REPORT}
+  \\ [0.5cm]
+  \HRule{0.5pt} \\
+  \LARGE \textbf{\uppercase{\projectTitle}}
+  \HRule{1pt}
+}
+\author[\studentName]{
+  \studentName \\
+  Guided by \guideName
+}
+\institute[IITB] {
+  \department \\
+  \instituteName \\
+}
+\date{}
+
+% Defining all symbols
+\glsxtrnewsymbol[description={Position Vector}]{x}{\ensuremath{x}}
+\glsxtrnewsymbol[description={Velocity}]{v}{\ensuremath{v}}
+\glsxtrnewsymbol[description={Time}]{t}{\ensuremath{t}}
+\glsxtrnewsymbol[description={Acceleration}]{a}{\ensuremath{a}}
+\glsxtrnewsymbol[description={Position after being affected by flow}]{F}{\ensuremath{F_{t_0}^t}}
+\glsxtrnewsymbol[description={Integration Length}]{T}{\ensuremath{T}}
+\glsxtrnewsymbol[description={Gradient}]{grad}{\ensuremath{\nabla}}
+\glsxtrnewsymbol[description={Cauchy-Green Deformation Tensor}]{C}{\ensuremath{C}}
+\glsxtrnewsymbol[description={Eigen Value}]{lambd}{\ensuremath{\lambda}}
+\glsxtrnewsymbol[description={Eulerian Rate of Strain Tensor}]{S}{\ensuremath{S}}
+\glsxtrnewsymbol[description={Stream function}]{psi}{\ensuremath{\Psi}}
+
+% Always have this just before \begin{document}
+\usepackage{subfiles}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% \begin{frame}
+%   \frametitle{Table of Contents}
+%   \tableofcontents
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{List of Symbols}
+%   % \printunsrtglossary[type=symbols,style=long,title={List of Symbols}]
+%   \printglossary
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{List of Figures}
+%   \listoffigures
+%   \addcontentsline{toc}{chapter}{\listfigurename}  
+% \end{frame}
+
+\subfile{chapters/01_abstract.tex}
+\subfile{chapters/02_introduction.tex}
+\subfile{chapters/03_literature_review.tex}
+\subfile{chapters/04_examples.tex}
+\subfile{chapters/06_conclusion.tex}
+
+
+\end{document}
