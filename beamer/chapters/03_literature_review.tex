@@ -8,6 +8,38 @@
 \begin{frame}
   \frametitle{Literature Review - Lagrangian Approach}
 
+  \textbf{Application of LCS.} \\
+  \begin{minipage}{0.45\linewidth}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\linewidth]{images/figure2.png}
+      \caption{Sea surface temperature in gulf-stream parabolic LCS}
+      % \label{fig:fig-1}
+    \end{figure}  
+  \end{minipage} \hfill
+  \begin{minipage}{0.45\linewidth}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\linewidth]{images/figure3.png}
+      \caption{Tornado off the Florida Keys 3D Elliptic LCS}
+      % \label{fig:fig-1}
+    \end{figure}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Literature Review}
+
+  \begin{itemize}
+    \setlength\itemsep{5em}
+    \item Lagrangian Approach
+    \item Eulerian Approach
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Literature Review - Lagrangian Approach}
+
   \begin{itemize}
     \item Consider the Dynamical System,
     \begin{equation}
@@ -33,7 +65,6 @@
       F_{t_0}^t(x_0) = x_0 + \int_{t_0}^{T} V(x(t), t)\,dt
     \end{equation}
 
-    \item Let's say there is another point close to \(x(t_0)\) which is \(y = x + \delta x(t_0)\). After a time interval \(T\), distance between these 2 points becomes
     \begin{equation}
       \begin{aligned}
         \delta x(t_0 + T) &= F_{t_0}^{t_0 + T} (y) - F_{t_0}^{t_0 + T} (x) \\
@@ -113,12 +144,13 @@
       \end{aligned}
     \end{equation}
     
-    \item And eigan values of which are \(s_1 < s_2 < \dots < s_n\) and associated normalized eigen vectors, \(\epsilon_{S_i}\;\; i \in \{1, 2, \dots, n\}\)
-    
-    \item From the eigen values of eulerian rate of stain tensor, one can identify regions of flow which are more attracting \& repelling.
-    
     \item There \(s_1\) \rightarrow minimum eigen values provides measure of attraction \& \(s_2\) maximum value of repulsion.
   \end{itemize}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/figure4.png}
+  \end{figure}
 \end{frame}
 
 % \subsubsection{Relation between Cauchy-Green Strain Tensor \& Eulerian Rate of Strain Tensor}
